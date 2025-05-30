@@ -31,6 +31,4 @@ public class UserController {
         return new ResponseEntity<>(new ResponseDto<>(1,"회원가입 성공", joinResponseDto), HttpStatus.CREATED);
     }
 
-
-
 }

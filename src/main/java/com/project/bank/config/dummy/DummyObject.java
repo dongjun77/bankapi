@@ -12,7 +12,7 @@ public class DummyObject {
         String encPassword = passwordEncoder.encode("1234");
         return User.builder()
                 .username(username)
-                .password("1234")
+                .password(encPassword)
                 .email(username + "@nate.com")
                 .fullname(fullname)
                 .role(UserEnum.CUSTOMER)
@@ -25,7 +25,7 @@ public class DummyObject {
         return User.builder()
                 .id(id)
                 .username(username)
-                .password("1234")
+                .password(encPassword)
                 .email(username + "@nate.com")
                 .fullname(fullname)
                 .role(UserEnum.CUSTOMER)
