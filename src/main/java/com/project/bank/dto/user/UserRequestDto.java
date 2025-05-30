@@ -13,6 +13,13 @@ public class UserRequestDto {
 
     @Setter
     @Getter
+    public static class LoginRequestDto {
+        private String username;
+        private String password;
+    }
+
+    @Setter
+    @Getter
     public static class JoinRequestDto{
 
         // 영문, 숫자, 길이 최소 2~20자 이내
