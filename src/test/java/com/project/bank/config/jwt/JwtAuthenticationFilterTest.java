@@ -40,7 +40,7 @@ class JwtAuthenticationFilterTest extends DummyObject {
 
     @BeforeEach
     public void setUp(){
-        dataSetting();
+        userRepository.save(newMockUser("ssar","쌀"));
     }
 
     @Test
@@ -85,10 +85,6 @@ class JwtAuthenticationFilterTest extends DummyObject {
         // then
         resultActions.andExpect(status().isUnauthorized());
 
-    }
-
-    private void dataSetting(){
-        userRepository.save(newMockUser("ssar","쌀"));
     }
 
 }
