@@ -1,12 +1,10 @@
 package com.project.bank.web;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.bank.config.dummy.DummyObject;
-import com.project.bank.domain.user.User;
 import com.project.bank.domain.user.UserRepository;
 import com.project.bank.dto.user.UserRequestDto.JoinRequestDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -80,7 +78,7 @@ class UserControllerTest extends DummyObject {
     }
 
     private void dataSetting(){
-        userRepository.save(newUser("ssar","쌀"));
+        userRepository.save(newMockUser("ssar","쌀"));
     }
 
 }
