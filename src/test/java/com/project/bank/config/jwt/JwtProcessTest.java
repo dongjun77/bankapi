@@ -1,5 +1,6 @@
 package com.project.bank.config.jwt;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.project.bank.config.auth.LoginUser;
@@ -33,7 +34,8 @@ class JwtProcessTest {
         System.out.println("테스트 : " + loginUser.getUser().getId());
 
         // then
-        assertTrue(loginUser.getUser().getId() == 1L);
+        assertThat(loginUser.getUser().getId() == 1L);
+        assertThat(loginUser.getUser().getRole() == UserEnum.ADMIN);
 
     }
 
