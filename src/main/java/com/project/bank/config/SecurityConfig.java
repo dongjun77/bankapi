@@ -1,16 +1,15 @@
 package com.project.bank.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.bank.config.jwt.JwtAuthenticationFilter;
+import com.project.bank.config.jwt.JwtAuthorizationFilter;
 import com.project.bank.domain.user.UserEnum;
-import com.project.bank.dto.ResponseDto;
 import com.project.bank.util.CustomResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -39,13 +38,13 @@ public class SecurityConfig {
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
             builder.addFilter(new JwtAuthenticationFilter(authenticationManager));
+            builder.addFilter(new JwtAuthorizationFilter(authenticationManager));
             super.configure(builder);
         }
 
         public HttpSecurity build() {
             return getBuilder();
         }
-
     }
 
     // JWT 서버를 만들 예정 !! Session 사용안함.
@@ -73,9 +72,14 @@ public class SecurityConfig {
         // 필터 적용
         http.with(new CustomSecurityFilterManager(), c -> c.build());
 
-        // Exception 가로채기
+        // 인증 실패
         http.exceptionHandling(exception -> exception.authenticationEntryPoint((request, response, authException) -> {
-            CustomResponseUtil.unAuthentication(response,"로그인을 진행해 주세요");
+            CustomResponseUtil.fail(response,"로그인을 진행해 주세요", HttpStatus.UNAUTHORIZED);
+        }));
+
+        // 권한 실패
+        http.exceptionHandling(exception-> exception.accessDeniedHandler((request, response, accessDeniedException) -> {
+            CustomResponseUtil.fail(response,"권한이 없습니다.", HttpStatus.FORBIDDEN);
         }));
 
         // 인가 규칙 설정
